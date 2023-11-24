@@ -1,0 +1,59 @@
+-- Show databases;
+
+-- DESCRIBE Mk_School.Students;
+-- DESCRIBE Mk_School.Courses;
+-- DESCRIBE Mk_School.Enrollments;
+-- SHOW COLUMNS FROM Mk_School.Students;
+
+-- SELECT * FROM Mk_School.Students;
+-- SELECT * FROM Mk_School.Courses;
+-- SELECT * FROM Mk_School.Enrollments;
+
+/*===== Retrieve all students enrolled in a specific course Start =====*/
+-- Retrieve all Students Enrolled in Course MATH
+SELECT Students.student_name AS 'Name', Courses.course_code AS 'Course Code' , Courses.course_name AS 'Course Name', Courses.course_desc AS 'Course Description', Students.student_grade_level AS 'Grade Level', Enrollments.enrollment_date AS 'Date Enrolled'
+FROM Mk_School.Students
+INNER JOIN Mk_School.Enrollments ON Students.student_id = Mk_School.Enrollments.student_id
+INNER JOIN Mk_School.Courses ON Courses.course_id = Enrollments.course_id
+WHERE Courses.course_code = 101
+ORDER BY student_grade_level;
+
+-- Retrieve all Students Enrolled in Course English
+SELECT Students.student_name AS 'Name', Courses.course_code AS 'Course Code' , Courses.course_name AS 'Course Name', Courses.course_desc AS 'Course Description', Students.student_grade_level AS 'Grade Level', Enrollments.enrollment_date AS 'Date Enrolled'
+FROM Mk_School.Students
+INNER JOIN Mk_School.Enrollments ON Students.student_id = Mk_School.Enrollments.student_id
+INNER JOIN Mk_School.Courses ON Courses.course_id = Enrollments.course_id
+WHERE Courses.course_code = 102
+ORDER BY student_grade_level;
+
+-- Retrieve all Students Enrolled in Course Science
+SELECT Students.student_name AS 'Name', Courses.course_code AS 'Course Code' , Courses.course_name AS 'Course Name', Courses.course_desc AS 'Course Description', Students.student_grade_level AS 'Grade Level', Enrollments.enrollment_date AS 'Date Enrolled'
+FROM Mk_School.Students
+INNER JOIN Mk_School.Enrollments ON Students.student_id = Mk_School.Enrollments.student_id
+INNER JOIN Mk_School.Courses ON Courses.course_id = Enrollments.course_id
+WHERE Courses.course_code = 103
+ORDER BY student_grade_level;
+/*===== Retrieve all students enrolled in a specific course End =====*/
+
+
+/*===========================================================================*/
+
+
+/*===== Find the total number of credits taken by each student Start =====*/
+SELECT Students.student_name AS 'Name', SUM(Courses.course_credit) AS 'Total Credits'
+FROM Mk_School.Students
+INNER JOIN Mk_School.Enrollments ON Students.student_id = Mk_School.Enrollments.student_id
+INNER JOIN Mk_School.Courses ON Courses.course_id = Enrollments.course_id
+GROUP BY Students.student_id;
+/*===== Find the total number of credits taken by each student End =====*/
+
+
+/*===========================================================================*/
+
+
+/*===== List all courses along with the number of enrolled students Start =====*/
+SELECT Courses.course_code AS 'Course Code', Courses.course_name AS 'Course Name', COUNT(Enrollments.student_id) AS 'Enrolled Students'
+FROM Mk_School.Courses
+LEFT JOIN Mk_School.Enrollments ON Mk_School.Courses.course_id = Mk_School.Enrollments.course_id
+GROUP BY Courses.course_id;
+/*===== List all courses along with the number of enrolled students End =====*/
